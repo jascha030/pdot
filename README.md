@@ -2,7 +2,7 @@
 
 Manage your dotfiles.
 
-## Notes
+## W.I.P. 
 
-> This project will serve as a prototype/proof of concept. 
+This project is a work in progress, and still in early development.
 
