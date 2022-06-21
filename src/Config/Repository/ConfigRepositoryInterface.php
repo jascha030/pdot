@@ -2,11 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Jascha030\Dotfiles\Config;
+namespace Jascha030\Dotfiles\Config\Repository;
 
-interface RepositoryInterface
+use Jascha030\Dotfiles\Config\ConfigInterface;
+
+interface ConfigRepositoryInterface
 {
+    /**
+     * Describes the Configuration type.
+     *
+     * @return string
+     */
     public function getName(): string;
 
-    public function getPattern(): string;
+    /**
+     * Create an instance of ConfigInterface.
+     *
+     * @return ConfigInterface
+     */
+    public function resolve(): ConfigInterface;
 }
