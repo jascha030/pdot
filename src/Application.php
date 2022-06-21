@@ -8,7 +8,7 @@ use Jascha030\CLI\Shell\ShellInterface;
 use Jascha030\Dotfiles\Config\ConfigInterface;
 use Jascha030\Dotfiles\Finder\Finder;
 
-class DotfilesManager
+class Application
 {
     private Finder $finder;
 
