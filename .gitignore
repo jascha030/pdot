@@ -1,0 +1,17 @@
+# IDE Projectfiles
+.idea/
+.vscode/
+
+# Dynamic
+.cache
+.var
+
+# Library
+vendor/
+
+node_modules/
+dist/
+
+# MacOS
+*.DS_Store
+.DS_Store
