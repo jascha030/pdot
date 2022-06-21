@@ -29,7 +29,10 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.0.0|^8.1",
-    "jascha030/cli": "^1.1"
+    "jascha030/cli": "^1.1",
+    "symfony/console": "^6.0",
+    "symfony/finder": "^6.0",
+    "symfony/filesystem": "^6.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^v3.8.0",
