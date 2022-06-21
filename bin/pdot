@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+if (! defined('CONFIG_HOME')) {
+    define('CONFIG_HOME', sprintf("%s/.config/", getenv('HOME')));
+}
+
+if (! defined('PD_CONFIG_HOME')) {
+    define('PD_CONFIG_HOME', sprintf("%s/pdot", CONFIG_HOME));
+}
+
+function user()
+{
+}

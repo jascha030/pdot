@@ -12,16 +12,24 @@
   "keywords": [],
   "homepage": "https://github.com/jascha030",
   "config": {},
-  "bin": [],
+  "bin": ["bin/pdot"],
   "autoload": {
-    "psr-4": {}
+    "files": [
+      "includes/cli.php"
+    ],
+    "psr-4": {
+      "Jascha030\\Dotfiles\\": "src/"
+    }
   },
   "autoload-dev": {
-    "psr-4": {}
+    "psr-4": {
+      "Jascha030\\Dotfiles\\": "tests/"
+    }
   },
   "minimum-stability": "stable",
   "require": {
-    "php": "^7.4|^8.0.0|^8.1"
+    "php": "^8.0.0|^8.1",
+    "jascha030/cli": "^1.1"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^v3.8.0",
@@ -31,13 +39,13 @@
   },
   "extra": {},
   "scripts": {
-    "phpunit": "phpunit -c phpunit.dist.xml",
+    "phpunit": "phpunit -c .phpunit.dist.xml",
     "php-cs-fixer": "php-cs-fixer fix --config=.php-cs-fixer.dist.php",
     "test": "@php-cs-fixer",
     "format": "@php-cs-fixer"
   },
   "scripts-descriptions": {
-    "test": "Runs phpunit with phpunit.dist.xml",
+    "test": "Runs phpunit with .phpunit.dist.xml",
     "format": "Runs php-cs-fixer with .php-cs-fixer.dist.php."
   }
 }
