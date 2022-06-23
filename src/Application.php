@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Jascha030\Dotfiles;
 
-use Jascha030\CLI\Shell\ShellInterface;
-use Jascha030\Dotfiles\Config\ConfigInterface;
-use Jascha030\Dotfiles\Finder\Finder;
+use Symfony\Component\Console\Application as BaseApplication;
 
-class Application
+final class Application extends BaseApplication
 {
-    private Finder $finder;
+    public const VERSION = '0.0.1-DEV';
 
-    public function __construct(
-        private ConfigInterface $config,
-        private ShellInterface  $shell
-    )
+    public const APP_NAME = 'PDot';
+
+    public function __construct()
     {
-        $this->finder = Finder::create()->setConfig($this->config);
+        parent::__construct(self::APP_NAME, self::VERSION);
     }
 }
