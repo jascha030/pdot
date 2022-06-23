@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace Jascha030\Dotfiles\Config;
 
-class Config implements ConfigInterface
+use function Jascha030\Dotfiles\home;
+
+abstract class ConfigAbstract implements ConfigInterface
 {
     public function __construct(
         private null|array|string $dotDirs = '/.dotfiles',
-        private ?string           $cachePath = null,
-        private ?bool             $addDots = true,
+        private ?string $cachePath = null,
+        private ?bool $addDots = true,
         private null|array|string $ignoredPatterns = null
-    )
+    ) {
+    }
+
+    public function getDestination(): string
     {
+        return home();
     }
 
     public function getDotDirs(): array
