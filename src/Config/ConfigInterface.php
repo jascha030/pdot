@@ -8,6 +8,8 @@ interface ConfigInterface
 {
     public function getDotDirs(): array;
 
+    public function getDestination(): string;
+
     public function getCachePath(): string;
 
     public function getAddDots(): bool;
