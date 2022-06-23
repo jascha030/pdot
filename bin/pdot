@@ -3,14 +3,41 @@
 
 declare(strict_types=1);
 
-if (! defined('CONFIG_HOME')) {
-    define('CONFIG_HOME', sprintf("%s/.config/", getenv('HOME')));
-}
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-if (! defined('PD_CONFIG_HOME')) {
-    define('PD_CONFIG_HOME', sprintf("%s/pdot", CONFIG_HOME));
-}
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
-function user()
-{
-}
+set_error_handler(static function ($severity, $message, $file, $line): void {
+    if ($severity & error_reporting()) {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        throw new ErrorException($message, 0, $severity, $file, $line);
+    }
+});
+
+(static function (): void {
+    if (defined('HHVM_VERSION_ID')) {
+        fwrite(STDERR, "HHVM is not supported.\n") && exit(1);
+    }
+
+    if (! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 80000) {
+        fwrite(STDERR, sprintf("PHP version: %s is not supported, please update to 8.0 or higher.\n", PHP_VERSION));
+    }
+
+    if (PHP_VERSION_ID >= 80200) {
+        fwrite(STDERR, sprintf("PHP version: %s is not supported, please downgrade to 8.1.* or 8.0.*.\n", PHP_VERSION));
+    }
+
+    $possible_autoloaders = new ArrayIterator(['/vendor/autoload.php', '/autoload.php']);
+
+    require_once(static function (Iterator $paths): ?string {
+        foreach ($paths as $path) {
+            if (file_exists($path = sprintf('%s%s', dirname(__DIR__), $path))) {
+                return $path;
+            }
+        }
+
+        return null;
+    })($possible_autoloaders) ?? throw new RuntimeException('Unable to resolve autoload.php');
+})();
+
+$output = new ConsoleOutput();
