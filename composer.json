@@ -15,7 +15,8 @@
   "bin": ["bin/pdot"],
   "autoload": {
     "files": [
-      "includes/cli.php"
+      "includes/cli.php",
+      "includes/container.php"
     ],
     "psr-4": {
       "Jascha030\\Dotfiles\\": "src/"
