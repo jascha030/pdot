@@ -10,8 +10,6 @@ interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
 {
     /**
      * A (or multiple) pattern(s) to find a valid config file.
-     *
-     * @return string|array
      */
     public function getPatterns(): string|array;
 
@@ -22,8 +20,6 @@ interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
 
     /**
      * Path to the default config of this format.
-     *
-     * @return string
      */
     public function getStubPath(): string;
 }

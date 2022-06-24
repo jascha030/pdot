@@ -10,15 +10,11 @@ interface ConfigRepositoryInterface
 {
     /**
      * Describes the Configuration type.
-     *
-     * @return string
      */
     public function getName(): string;
 
     /**
      * Create an instance of ConfigInterface.
-     *
-     * @return ConfigInterface
      */
     public function resolve(): ConfigInterface;
 }
