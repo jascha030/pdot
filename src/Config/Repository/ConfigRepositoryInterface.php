@@ -8,6 +8,8 @@ use Jascha030\Dotfiles\Config\ConfigInterface;
 
 interface ConfigRepositoryInterface
 {
+    public function getPriority(): int;
+
     /**
      * Describes the Configuration type.
      */
