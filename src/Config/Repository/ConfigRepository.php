@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jascha030\Dotfiles\Config\Repository;
 
+use Iterator;
 use Jascha030\Dotfiles\Config\ConfigInterface;
 
 abstract class ConfigRepository implements ConfigRepositoryInterface
@@ -22,7 +23,7 @@ abstract class ConfigRepository implements ConfigRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    abstract public function resolve(): null|array|ConfigInterface;
+    abstract public function resolve(): null|Iterator|ConfigInterface;
 
     /**
      * {@inheritDoc}

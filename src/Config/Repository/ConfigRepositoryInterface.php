@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jascha030\Dotfiles\Config\Repository;
 
+use Iterator;
 use Jascha030\Dotfiles\Config\ConfigInterface;
 
 interface ConfigRepositoryInterface
@@ -28,5 +29,5 @@ interface ConfigRepositoryInterface
      *
      * @return null|ConfigInterface|ConfigInterface[]
      */
-    public function resolve(): null|array|ConfigInterface;
+    public function resolve(): null|Iterator|ConfigInterface;
 }
