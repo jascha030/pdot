@@ -10,27 +10,42 @@ interface ConfigInterface
      * The origin of the config object.
      * E.g. filename for confurations parsed from a file.
      */
-    public function getOrigin(): string;
+    public function getOrigin(): ?string;
 
     /**
-     * If an incomplete config should be merged with other found configurations by default.
-     * E.g. when a Configuration is created based on Environment variables,
-     * and a config file is also present should the resolver attempt to merge the configurations.
+     * Dotfile directories to track, defaults to `$HOME/.dotfiles`.
      */
-    public function preferMerge(): bool;
+    public function getDotDirs(): ?array;
 
-    public function getDotDirs(): array;
+    /**
+     * Root of the destination directory, defaults to `$HOME`.
+     */
+    public function getDestination(): ?string;
 
-    public function getDestination(): string;
+    /**
+     * Should paths be prefixed with a `.` (dot), defaults to `true`.
+     */
+    public function getAddDots(): ?bool;
 
-    public function getAddDots(): bool;
-
+    /**
+     * If AddDots is set to `true` add an optional list of patterns of which dots shall be omitted.
+     */
     public function getUndottedPatterns(): ?array;
 
-    public function getIgnoredPatterns(): array|string;
+    /**
+     * List of patterns to ignore when using the `pdot up` command.
+     * Paths that are ignored by default:
+     * - `*.git*`
+     * - `README*`
+     * - `LICENSE`.
+     * - Any type of pdot configuration file.
+     */
+    public function getIgnoredPatterns(): ?array;
 
     /**
      * Get the configuration as array of $key => $value pairs.
+     *
+     * @internal
      */
     public function getRaw(): array;
 }

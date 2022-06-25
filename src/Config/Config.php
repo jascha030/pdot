@@ -16,8 +16,6 @@ class Config implements ConfigInterface
 {
     private ?string $origin;
 
-    private ?bool $preferMerge;
-
     private ?string $destination;
 
     private null|array|string $dotDirs;
@@ -31,7 +29,6 @@ class Config implements ConfigInterface
     private function __construct()
     {
         $this->origin           = null;
-        $this->preferMerge      = null;
         $this->destination      = null;
         $this->dotDirs          = null;
         $this->addDots          = null;
@@ -62,7 +59,7 @@ class Config implements ConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function getOrigin(): string
+    public function getOrigin(): ?string
     {
         return $this->origin;
     }
@@ -70,23 +67,7 @@ class Config implements ConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function preferMerge(): bool
-    {
-        return $this->preferMerge;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDestination(): string
-    {
-        return $this->destination;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDotDirs(): array
+    public function getDotDirs(): ?array
     {
         return $this->dotDirs;
     }
@@ -94,9 +75,17 @@ class Config implements ConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function getAddDots(): bool
+    public function getDestination(): ?string
     {
-        return $this->addDots ?? true;
+        return $this->destination;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAddDots(): ?bool
+    {
+        return $this->addDots;
     }
 
     /**
@@ -110,7 +99,7 @@ class Config implements ConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function getIgnoredPatterns(): array|string
+    public function getIgnoredPatterns(): ?array
     {
         return $this->ignoredPatterns;
     }
@@ -144,18 +133,11 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param null|array|string|string[] $ignoredPatterns
+     * @param string|string[] $ignoredPatterns
      */
-    public function setIgnoredPatterns(array|string|null $ignoredPatterns): Config
+    public function setIgnoredPatterns(array|string $ignoredPatterns): Config
     {
         $this->ignoredPatterns = $ignoredPatterns;
-
-        return $this;
-    }
-
-    public function setPreferMerge(bool $preferMerge): Config
-    {
-        $this->preferMerge = $preferMerge;
 
         return $this;
     }
