@@ -9,11 +9,7 @@ function home(): string
     return $_SERVER['HOME'];
 }
 
-/**
- * todo: implement.
- *
- * @noinspection PhpInconsistentReturnPointsInspection
- */
-function run(): int
+function defaultConfigPath(): string
 {
+    return home() . '/.config/pdot';
 }
