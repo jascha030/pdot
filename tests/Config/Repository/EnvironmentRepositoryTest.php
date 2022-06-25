@@ -7,6 +7,7 @@ namespace Jascha030\Dotfiles\Config\Repository;
 use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertIsString;
+use function PHPUnit\Framework\assertNull;
 
 /**
  * @covers \Jascha030\Dotfiles\Config\Repository\ConfigRepository
@@ -61,6 +62,18 @@ class EnvironmentRepositoryTest extends TestCase
         foreach (self::$testEnv as $key => $value) {
             assertEquals($value, $config->{self::MAP[$key]}());
         }
+    }
+
+    /**
+     * @depends testResolve
+     */
+    public function testResolveReturnsNullWhenAllVariablesAreUnset(): void
+    {
+        foreach (self::$testEnv as $key => $value) {
+            unset($_SERVER[$key]);
+        }
+
+        assertNull($this->getRepository()->resolve());
     }
 
     private function getRepository(): ConfigRepositoryInterface
