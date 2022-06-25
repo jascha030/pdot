@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jascha030\Dotfiles\Config\Repository;
+namespace Jascha030\Dotfiles\Config\Repository\File;
 
 use Jascha030\Dotfiles\Config\Parser\ConfigFileParserInterface;
+use Jascha030\Dotfiles\Config\Repository\ConfigRepositoryInterface;
 use Jascha030\Dotfiles\Finder\Finder;
 
 interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
