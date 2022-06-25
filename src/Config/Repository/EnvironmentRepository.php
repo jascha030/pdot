@@ -9,13 +9,22 @@ use Jascha030\Dotfiles\Config\ConfigInterface;
 
 class EnvironmentRepository extends ConfigRepository
 {
+    private const NAME = 'environment';
+
+    private const DESCRIPTION = 'Uses environment variables to configure behaviour of the `pdot up` command.';
+
     private const ENVIRONMENT_KEY_MAP = [
-        'PDOT_DESTINATION'      => 'setDestination',
-        'PDOT_DOTFILE_DIRS'     => 'setDotDirs',
-        'PDOT_ADD_DOTS'         => 'setAddDots',
-        'PDOT_UNDOT_PATTERNS'   => 'setUndottedPatterns',
-        'PDOT_IGNORED_PATTERNS' => 'setIgnoredPatterns',
+        'PDOT_DESTINATION'      => 'destination',
+        'PDOT_DOTFILE_DIRS'     => 'dotDirs',
+        'PDOT_ADD_DOTS'         => 'addDots',
+        'PDOT_UNDOT_PATTERNS'   => 'undottedPatterns',
+        'PDOT_IGNORED_PATTERNS' => 'ignoredPatterns',
     ];
+
+    public function __construct()
+    {
+        parent::__construct(self::NAME, self::DESCRIPTION, ConfigRepository::PRIO_HIGH);
+    }
 
     /**
      * {@inheritDoc}
@@ -23,22 +32,6 @@ class EnvironmentRepository extends ConfigRepository
     public function getPriority(): int
     {
         return ConfigRepository::PRIO_HIGH;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(): string
-    {
-        return 'environment';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDescription(): string
-    {
-        return 'Uses environment variables to configure behaviour of the `pdot up` command.';
     }
 
     /**

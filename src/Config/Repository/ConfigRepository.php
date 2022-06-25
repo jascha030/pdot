@@ -14,7 +14,8 @@ abstract class ConfigRepository implements ConfigRepositoryInterface
 
     public function __construct(
         private string $name,
-        private string $description
+        private string $description,
+        private int $prio = self::PRIO_NORMAL,
     ) {
     }
 
@@ -28,7 +29,7 @@ abstract class ConfigRepository implements ConfigRepositoryInterface
      */
     public function getPriority(): int
     {
-        return self::PRIO_NORMAL;
+        return $this->prio;
     }
 
     /**
