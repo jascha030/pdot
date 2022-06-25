@@ -43,6 +43,8 @@ class EnvironmentRepository extends ConfigRepository
 
     /**
      * {@inheritDoc}
+     *
+     * @return null|ConfigInterface
      */
     public function resolve(): null|ConfigInterface
     {

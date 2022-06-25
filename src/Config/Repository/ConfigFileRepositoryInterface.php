@@ -14,7 +14,7 @@ interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
     public function getParser(): ConfigFileParserInterface;
 
     /**
-     * Path to the default config of this format.
+     * Path to a stub containing a default config file of this format.
      */
-    public function getStubPath(): string;
+    public function getStubPath(): ?string;
 }
