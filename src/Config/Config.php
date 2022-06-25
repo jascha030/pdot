@@ -67,7 +67,7 @@ class Config implements ConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function getDotDirs(): ?array
+    public function getDotDirs(): null|string|array
     {
         return $this->dotDirs;
     }
@@ -104,9 +104,16 @@ class Config implements ConfigInterface
         return $this->ignoredPatterns;
     }
 
-    public function setOrigin(string $origin): Config
+    public function setOrigin(?string $origin): Config
     {
         $this->origin = $origin;
+
+        return $this;
+    }
+
+    public function setDestination(?string $destination): Config
+    {
+        $this->destination = $destination;
 
         return $this;
     }
@@ -132,10 +139,7 @@ class Config implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @param string|string[] $ignoredPatterns
-     */
-    public function setIgnoredPatterns(array|string $ignoredPatterns): Config
+    public function setIgnoredPatterns(array|string|null $ignoredPatterns): Config
     {
         $this->ignoredPatterns = $ignoredPatterns;
 
