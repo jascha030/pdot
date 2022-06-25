@@ -1,0 +1,14 @@
+# This is the config file for the (sadly) ficticious `beepboop` CLI app.
+beeps:
+  enabled: true
+  amount: 1
+  prio: 1
+
+boops:
+  enabled: true
+  amount: 2
+  prio: 2
+
+# Warning, blips are still in development and considered highly experimental.
+blips:
+  enabled: false
