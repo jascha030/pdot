@@ -1,58 +1,125 @@
 <?php
 
+/**
+ * @noinspection PhpUnused
+ */
+
 declare(strict_types=1);
 
 namespace Jascha030\Dotfiles\Config;
 
+use Exception;
 use Generator;
 use ReflectionObject;
-use function Jascha030\Dotfiles\home;
 
 class Config implements ConfigInterface
 {
-    public function __construct(
-        private string $origin,
-        private null|array|string $dotDirs = '/.dotfiles',
-        private ?bool $addDots = true,
-        private ?array $undottedPatterns = null,
-        private null|array|string $ignoredPatterns = ['.gitignore', '.git', 'README*', 'LICENSE*'],
-        private bool $preferMerge = true,
-    ) {
+    private ?string $origin;
+
+    private ?bool $preferMerge;
+
+    private ?string $destination;
+
+    private null|array|string $dotDirs;
+
+    private ?bool $addDots;
+
+    private ?array $undottedPatterns;
+
+    private null|array|string $ignoredPatterns;
+
+    private function __construct()
+    {
+        $this->origin           = null;
+        $this->preferMerge      = null;
+        $this->destination      = null;
+        $this->dotDirs          = null;
+        $this->addDots          = null;
+        $this->undottedPatterns = null;
+        $this->ignoredPatterns  = null;
     }
 
+    public static function create(array $values): static
+    {
+        $config = new static();
+
+        foreach ($values as $key => $value) {
+            $accessor = 'set' . ucfirst($key);
+
+            if (method_exists(static::class, $accessor)) {
+                try {
+                    $config->{$accessor}($value);
+                } catch (Exception) {
+                    // todo: Relay this to user during command execution.
+                    continue;
+                }
+            }
+        }
+
+        return $config;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getOrigin(): string
     {
         return $this->origin;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function preferMerge(): bool
     {
         return $this->preferMerge;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDestination(): string
     {
-        return home();
+        return $this->destination;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDotDirs(): array
     {
         return $this->dotDirs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAddDots(): bool
     {
         return $this->addDots ?? true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getUndottedPatterns(): ?array
     {
         return $this->undottedPatterns;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getIgnoredPatterns(): array|string
     {
         return $this->ignoredPatterns;
+    }
+
+    public function setOrigin(string $origin): Config
+    {
+        $this->origin = $origin;
+
+        return $this;
     }
 
     public function setDotDirs(array|string|null $dotDirs): Config
@@ -69,9 +136,26 @@ class Config implements ConfigInterface
         return $this;
     }
 
+    public function setUndottedPatterns(?array $undottedPatterns): Config
+    {
+        $this->undottedPatterns = $undottedPatterns;
+
+        return $this;
+    }
+
+    /**
+     * @param null|array|string|string[] $ignoredPatterns
+     */
     public function setIgnoredPatterns(array|string|null $ignoredPatterns): Config
     {
         $this->ignoredPatterns = $ignoredPatterns;
+
+        return $this;
+    }
+
+    public function setPreferMerge(bool $preferMerge): Config
+    {
+        $this->preferMerge = $preferMerge;
 
         return $this;
     }
