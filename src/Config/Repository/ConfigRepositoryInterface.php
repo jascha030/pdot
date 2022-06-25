@@ -8,15 +8,25 @@ use Jascha030\Dotfiles\Config\ConfigInterface;
 
 interface ConfigRepositoryInterface
 {
+    /**
+     * The priority a config type gets, when multiple config sources are found.
+     */
     public function getPriority(): int;
 
     /**
-     * Describes the Configuration type.
+     * Short descriptive name of the Configuration type.
      */
     public function getName(): string;
 
     /**
-     * Create an instance of ConfigInterface.
+     * Extended discription of the Configuration type.
      */
-    public function resolve(): ConfigInterface;
+    public function getDescription(): string;
+
+    /**
+     * Create an instance of ConfigInterface.
+     *
+     * @return null|ConfigInterface|ConfigInterface[]
+     */
+    public function resolve(): null|array|ConfigInterface;
 }

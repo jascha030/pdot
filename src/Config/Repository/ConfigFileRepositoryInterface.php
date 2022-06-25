@@ -5,18 +5,13 @@ declare(strict_types=1);
 namespace Jascha030\Dotfiles\Config\Repository;
 
 use Jascha030\Dotfiles\Config\Parser\ConfigFileParserInterface;
+use Jascha030\Dotfiles\Finder\Finder;
 
 interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
 {
-    /**
-     * A (or multiple) pattern(s) to find a valid config file.
-     */
-    public function getPatterns(): string|array;
+    public function getFinder(): Finder;
 
-    /**
-     * @return ConfigFileParserInterface[]
-     */
-    public function getAvailableParsers(): array;
+    public function getParser(): ConfigFileParserInterface;
 
     /**
      * Path to the default config of this format.
