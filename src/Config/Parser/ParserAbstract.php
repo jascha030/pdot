@@ -12,9 +12,4 @@ abstract class ParserAbstract implements ConfigFileParserInterface
     abstract public function getFilePattern(): array;
 
     abstract public function parse(SplFileInfo $fileInfo): ConfigInterface;
-
-    private function getHome(): string
-    {
-        return getenv('HOME');
-    }
 }
