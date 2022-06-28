@@ -15,7 +15,7 @@ class NativeFileRepository extends ConfigFileRepository
      */
     public function getStubPath(): ?string
     {
-        // TODO: Implement getStubPath() method.
+        return null;
     }
 
     public function getAllowedPatterns(): array
@@ -23,7 +23,6 @@ class NativeFileRepository extends ConfigFileRepository
         return [
             '.pdot.*.php',
             '.pdot.php',
-            
         ];
     }
 }
