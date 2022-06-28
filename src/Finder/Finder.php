@@ -15,9 +15,6 @@ class Finder extends \Symfony\Component\Finder\Finder
         return static::create()->setConfig($config);
     }
 
-    /**
-     * @todo: implement method to setup for finding RC Files.
-     */
     public static function configFinder(): static
     {
         return static::create()
