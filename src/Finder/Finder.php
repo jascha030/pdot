@@ -18,7 +18,6 @@ class Finder extends \Symfony\Component\Finder\Finder
     public static function configFinder(): static
     {
         return static::create()
-            ->in([home(), defaultConfigPath()])
             ->ignoreDotFiles(false)
             ->files();
     }
