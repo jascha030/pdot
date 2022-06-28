@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Jascha030\Dotfiles\Finder;
 
 use Jascha030\Dotfiles\Config\ConfigInterface;
-use function Jascha030\Dotfiles\defaultConfigPath;
-use function Jascha030\Dotfiles\home;
 
 class Finder extends \Symfony\Component\Finder\Finder
 {

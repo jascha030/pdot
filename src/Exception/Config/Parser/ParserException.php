@@ -10,6 +10,7 @@ use SplFileInfo;
 class ParserException extends InvalidArgumentException
 {
     public const REASON_NOT_FOUND = 0;
+
     public const REASON_INVALID_CONFIG = 1;
 
     private const REASON_TYPES = [
