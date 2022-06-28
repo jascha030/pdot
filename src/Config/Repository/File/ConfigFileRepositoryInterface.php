@@ -10,6 +10,8 @@ use Jascha030\Dotfiles\Finder\Finder;
 
 interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
 {
+    public function getAllowedPatterns(): array;
+
     public function getFinder(): Finder;
 
     public function getParser(): ConfigFileParserInterface;
