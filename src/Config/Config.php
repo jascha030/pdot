@@ -14,6 +14,12 @@ use ReflectionObject;
 
 class Config implements ConfigInterface
 {
+    private const IGNORE_ALWAYS = [
+        '.git*',
+        '*README.*',
+        '*LICENSE*',
+    ];
+
     private ?string $origin;
 
     private ?string $destination;
@@ -36,8 +42,12 @@ class Config implements ConfigInterface
         $this->ignoredPatterns  = null;
     }
 
-    public static function create(array $values): static
+    public static function create(?array $values = null): static
     {
+        if (null === $values) {
+            return new static();
+        }
+
         $config = new static();
 
         foreach ($values as $key => $value) {
