@@ -9,12 +9,18 @@ use Iterator;
 use Jascha030\Dotfiles\Config\ConfigInterface;
 use Jascha030\Dotfiles\Config\Parser\ConfigFileParserInterface;
 use Jascha030\Dotfiles\Config\Repository\ConfigRepository;
+use Jascha030\Dotfiles\Finder\Finder;
 use RuntimeException;
 use Symfony\Component\Finder\SplFileInfo;
 
 abstract class ConfigFileRepository extends ConfigRepository implements ConfigFileRepositoryInterface
 {
     private ConfigFileParserInterface $parser;
+
+    public function getFinder(): Finder
+    {
+        return Finder::configFinder()->name($this->getAllowedPatterns());
+    }
 
     public function setParser(ConfigFileParserInterface $parser): static
     {
