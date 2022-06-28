@@ -7,11 +7,30 @@ namespace Jascha030\Dotfiles\Config\Repository\File;
 use ArrayIterator;
 use Iterator;
 use Jascha030\Dotfiles\Config\ConfigInterface;
+use Jascha030\Dotfiles\Config\Parser\ConfigFileParserInterface;
 use Jascha030\Dotfiles\Config\Repository\ConfigRepository;
+use RuntimeException;
 use Symfony\Component\Finder\SplFileInfo;
 
 abstract class ConfigFileRepository extends ConfigRepository implements ConfigFileRepositoryInterface
 {
+    private ConfigFileParserInterface $parser;
+
+    public function setParser(ConfigFileParserInterface $parser): static
+    {
+        $this->parser = $parser;
+
+        return $this;
+    }
+
+    /**
+     * @throws RuntimeException
+     */
+    public function getParser(): ConfigFileParserInterface
+    {
+        return $this->parser ?? throw self::parserException();
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -37,5 +56,10 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
         return ! empty($results)
             ? new ArrayIterator($results)
             : null;
+    }
+
+    private static function parserException(): RuntimeException
+    {
+        return new RuntimeException('No parser was set. (use `' . __CLASS__ . '::setParser($parser)`)');
     }
 }
