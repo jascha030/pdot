@@ -12,6 +12,8 @@ use Jascha030\Dotfiles\Config\Repository\ConfigRepository;
 use Jascha030\Dotfiles\Finder\Finder;
 use RuntimeException;
 use Symfony\Component\Finder\SplFileInfo;
+use function Jascha030\Dotfiles\defaultConfigPath;
+use function Jascha030\Dotfiles\home;
 
 abstract class ConfigFileRepository extends ConfigRepository implements ConfigFileRepositoryInterface
 {
@@ -19,7 +21,14 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
 
     public function getFinder(): Finder
     {
-        return Finder::configFinder()->name($this->getAllowedPatterns());
+        return Finder::configFinder()
+            ->in($this->getSearchDirs())
+            ->name($this->getAllowedPatterns());
+    }
+
+    public function getSearchDirs(): array
+    {
+        return [home(), defaultConfigPath()];
     }
 
     public function setParser(ConfigFileParserInterface $parser): static
