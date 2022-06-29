@@ -19,16 +19,16 @@ class NativeFileRepository extends ConfigFileRepository
     /**
      * {@inheritDoc}
      */
+    public function getAllowedPatterns(): array|string
+    {
+        return '/\.?pdot(\..*)?\.php$/';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getStubPath(): ?string
     {
         return null;
-    }
-
-    public function getAllowedPatterns(): array
-    {
-        return [
-            '.pdot.*.php',
-            '.pdot.php',
-        ];
     }
 }
