@@ -20,6 +20,11 @@ interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
     public function getAllowedPatterns(): array|string;
 
     /**
+     * Check if given filename matches a pattern provided by the repository.
+     */
+    public function isMatch(string $filePath): bool;
+
+    /**
      * Finder object configured to find the specified type of config file(s).
      *
      * @return Finder
