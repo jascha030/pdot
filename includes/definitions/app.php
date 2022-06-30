@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Jascha030\Dotfiles\Application;
 use Jascha030\Dotfiles\Config\ConfigResolver;
-use Jascha030\Dotfiles\Config\Repository\File\NativeFileRepository;
 use Jascha030\Dotfiles\Console\Command\ConfigCommand;
 use Jascha030\Dotfiles\Console\Command\UpCommand;
 use Psr\Container\ContainerInterface;
@@ -17,9 +16,6 @@ use function DI\autowire;
  * @see https://php-di.org/doc/php-definitions.html
  */
 return [
-    'repositories' => [
-        NativeFileRepository::class,
-    ],
     ConfigResolver::class => static function (ContainerInterface $container): ConfigResolver {
         return new ConfigResolver(iterator_to_array(
             (static function (array $repositories) use ($container) {
@@ -30,6 +26,6 @@ return [
         ));
     },
     ConfigCommand::class   => autowire(),
-    UpCommand::class       => autowire()->constructor(),
+    UpCommand::class       => autowire(),
     BaseApplication::class => autowire(Application::class),
 ];
