@@ -6,29 +6,29 @@ namespace Jascha030\Dotfiles\Config\Repository\File;
 
 use Jascha030\Dotfiles\Config\ConfigInterface;
 
-class NativeFileRepository extends ConfigFileRepository
+final class NativeFileRepository extends ConfigFileRepository
 {
-    public function __construct()
+    /**
+     * {@inheritDoc}
+     */
+    public static function getName(): string
     {
-        parent::__construct('native-file', sprintf(
-            'Simple php file that returns an object implementing "%s"',
-            ConfigInterface::class
-        ));
+        return 'native-file';
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAllowedPatterns(): array|string
+    public static function getDescription(): string
+    {
+        return sprintf('Simple php file that returns an object implementing "%s"', ConfigInterface::class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getAllowedPatterns(): array|string
     {
         return '/\.?pdot(\..*)?\.php$/';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getStubPath(): ?string
-    {
-        return null;
     }
 }

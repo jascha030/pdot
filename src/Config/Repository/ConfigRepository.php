@@ -13,13 +13,6 @@ abstract class ConfigRepository implements ConfigRepositoryInterface
 
     public const PRIO_NORMAL = 50;
 
-    public function __construct(
-        private string $name,
-        private string $description,
-        private int $prio = self::PRIO_NORMAL,
-    ) {
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -28,24 +21,8 @@ abstract class ConfigRepository implements ConfigRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function getPriority(): int
+    public static function getPriority(): int
     {
-        return $this->prio;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
+        return self::PRIO_NORMAL;
     }
 }

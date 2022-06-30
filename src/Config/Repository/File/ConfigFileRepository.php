@@ -19,16 +19,66 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
 {
     private ConfigFileParserInterface $parser;
 
+    private array $searchDirs;
+
+    public function __construct()
+    {
+        $this->searchDirs = [home(), defaultConfigPath()];
+    }
+
+    public static function getStubPath(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @noinspection PhpUnused
+     */
+    final public function setParser(ConfigFileParserInterface $parser): static
+    {
+        $this->parser = $parser;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws RuntimeException
+     */
+    public function getParser(): ConfigFileParserInterface
+    {
+        return $this->parser ?? throw self::parserException();
+    }
+
+    public function setSearchDirs(array $directories): static
+    {
+        $this->searchDirs = $directories;
+
+        return $this;
+    }
+
+    public function getSearchDirs(): ?array
+    {
+        return $this->searchDirs;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getFinder(): Finder
     {
         return Finder::configFinder()
             ->in($this->getSearchDirs())
-            ->name($this->getAllowedPatterns());
+            ->name(static::getAllowedPatterns());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function isMatch(string $filePath): bool
     {
-        $patterns = $this->getAllowedPatterns();
+        $patterns = static::getAllowedPatterns();
 
         if (is_string($patterns)) {
             return false !== preg_match($patterns, $filePath);
@@ -41,26 +91,6 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
         }
 
         return false;
-    }
-
-    public function getSearchDirs(): array
-    {
-        return [home(), defaultConfigPath()];
-    }
-
-    public function setParser(ConfigFileParserInterface $parser): static
-    {
-        $this->parser = $parser;
-
-        return $this;
-    }
-
-    /**
-     * @throws RuntimeException
-     */
-    public function getParser(): ConfigFileParserInterface
-    {
-        return $this->parser ?? throw self::parserException();
     }
 
     /**

@@ -17,7 +17,13 @@ interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
      *
      * @see https://symfony.com/doc/current/components/finder.html#file-name
      */
-    public function getAllowedPatterns(): array|string;
+    public static function getAllowedPatterns(): array|string;
+
+    /**
+     * Path to a stub (template file) containing the default config file of this format,
+     * if this is not appliccable for the specific type, null may be returned.
+     */
+    public static function getStubPath(): ?string;
 
     /**
      * Check if given filename matches a pattern provided by the repository.
@@ -26,8 +32,6 @@ interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
 
     /**
      * Finder object configured to find the specified type of config file(s).
-     *
-     * @return Finder
      */
     public function getFinder(): Finder;
 
@@ -38,10 +42,4 @@ interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
      * @see ConfigInterface
      */
     public function getParser(): ConfigFileParserInterface;
-
-    /**
-     * Path to a stub (template file) containing the default config file of this format,
-     * if this is not appliccable for the specific type, null may be returned.
-     */
-    public function getStubPath(): ?string;
 }

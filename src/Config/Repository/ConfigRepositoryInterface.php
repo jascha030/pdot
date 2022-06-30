@@ -12,17 +12,17 @@ interface ConfigRepositoryInterface
     /**
      * The priority a config type gets, when multiple config sources are found.
      */
-    public function getPriority(): int;
+    public static function getPriority(): int;
 
     /**
      * Short descriptive name of the Configuration type.
      */
-    public function getName(): string;
+    public static function getName(): string;
 
     /**
      * Extended discription of the Configuration type.
      */
-    public function getDescription(): string;
+    public static function getDescription(): string;
 
     /**
      * Create an instance of ConfigInterface.
