@@ -26,6 +26,23 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
             ->name($this->getAllowedPatterns());
     }
 
+    public function isMatch(string $filePath): bool
+    {
+        $patterns = $this->getAllowedPatterns();
+
+        if (is_string($patterns)) {
+            return false !== preg_match($patterns, $filePath);
+        }
+
+        foreach ($patterns as $pattern) {
+            if (false !== preg_match($pattern, $filePath)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getSearchDirs(): array
     {
         return [home(), defaultConfigPath()];
