@@ -26,11 +26,6 @@ interface ConfigFileRepositoryInterface extends ConfigRepositoryInterface
     public static function getStubPath(): ?string;
 
     /**
-     * Check if given filename matches a pattern provided by the repository.
-     */
-    public function isMatch(string $filePath): bool;
-
-    /**
      * Finder object configured to find the specified type of config file(s).
      */
     public function getFinder(): Finder;
