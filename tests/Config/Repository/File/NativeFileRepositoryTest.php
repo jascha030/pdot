@@ -31,11 +31,9 @@ final class NativeFileRepositoryTest extends TestCase
      */
     public function testGetAllowedPatterns(): void
     {
-        $patterns = (new NativeFileRepository())->getAllowedPatterns();
-
         $iterator = Finder::configFinder()
             ->in(dirname(__FILE__, 4) . '/Fixtures/fs/root')
-            ->name($patterns)
+            ->name(NativeFileRepository::getAllowedPatterns())
             ->getIterator();
 
         assertCount(1, iterator_to_array($iterator));
@@ -46,6 +44,6 @@ final class NativeFileRepositoryTest extends TestCase
      */
     public function testGetStubPath(): void
     {
-        assertNull((new NativeFileRepository())->getStubPath());
+        assertNull(NativeFileRepository::getStubPath());
     }
 }
