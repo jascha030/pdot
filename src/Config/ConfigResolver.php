@@ -130,7 +130,7 @@ final class ConfigResolver
 
     public function foundMultiple(): bool
     {
-        $this->count > 1;
+        return $this->count > 1;
     }
 
     private function isMatch(string $filename, array|string $patterns): bool
