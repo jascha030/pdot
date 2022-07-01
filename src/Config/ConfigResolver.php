@@ -116,7 +116,10 @@ final class ConfigResolver
 
                 if ($this->isMatch($info->getFilename(), $repository::getAllowedPatterns())) {
                     try {
-                        return $this->container->get($repository)->getParser()->parse($info->getRealPath());
+                        return $this->container
+                            ->get($repository)
+                            ->getParser()
+                            ->parse($info->getRealPath());
                     } catch (NotFoundExceptionInterface|ContainerExceptionInterface) {
                         // Todo: Understandible exceptions.
                         continue;
