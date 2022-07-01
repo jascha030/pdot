@@ -11,6 +11,7 @@ namespace Jascha030\Dotfiles\Config;
 use Exception;
 use Generator;
 use ReflectionObject;
+use function Jascha030\Dotfiles\home;
 
 class Config implements ConfigInterface
 {
@@ -35,11 +36,11 @@ class Config implements ConfigInterface
     private function __construct()
     {
         $this->origin           = null;
-        $this->destination      = null;
+        $this->destination      = sprintf('%s/.dotfiles', home());
         $this->dotDirs          = null;
         $this->addDots          = null;
-        $this->undottedPatterns = null;
         $this->ignoredPatterns  = null;
+        $this->undottedPatterns = null;
     }
 
     public static function create(?array $values = null): static
@@ -79,7 +80,7 @@ class Config implements ConfigInterface
      */
     public function getDotDirs(): null|string|array
     {
-        return $this->dotDirs;
+        return $this->dotDirs ?? home() . '/.dotfiles';
     }
 
     /**
@@ -149,9 +150,9 @@ class Config implements ConfigInterface
         return $this;
     }
 
-    public function setIgnoredPatterns(array|string|null $ignoredPatterns): Config
+    public function setIgnoredPatterns(?array $ignoredPatterns): Config
     {
-        $this->ignoredPatterns = $ignoredPatterns;
+        $this->ignoredPatterns = array_merge(self::IGNORE_ALWAYS, $ignoredPatterns);
 
         return $this;
     }

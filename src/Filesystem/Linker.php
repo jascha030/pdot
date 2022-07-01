@@ -11,41 +11,54 @@ use Jascha030\Dotfiles\Finder\Finder;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\SplFileInfo;
-use function Jascha030\Dotfiles\home;
 
 class Linker
 {
-    private string|array $dotDir;
-
     private array $map;
 
     private Filesystem $fs;
 
-    private array $linked;
+    private array $linkedFiles;
 
     private array $errors;
 
-    public function __construct(private ConfigInterface $config)
+    private function __construct(private ConfigInterface $config)
     {
-        $this->map    = [];
-        $this->linked = [];
-        $this->errors = [];
+        $this->map         = [];
+        $this->linkedFiles = [];
+        $this->errors      = [];
+    }
 
-        $this->fs     = new Filesystem();
-        $this->dotDir = $this->config->getDotDirs() ?? home() . '/.dotfiles';
+    final public function getErrors(): ?array
+    {
+        return ! empty($this->errors)
+            ? $this->errors
+            : null;
+    }
+
+    final public function getLinkedFiles(): ?array
+    {
+        return ! empty($this->linkedFiles)
+            ? $this->linkedFiles
+            : null;
     }
 
     public function linkFiles(): static
     {
+        if (! isset($this->fs)) {
+            $this->fs = new Filesystem();
+        }
+
         foreach ($this->getQueue() as $originPath => $destinationPath) {
             try {
                 $this->fs->symlink($originPath, $destinationPath);
             } catch (IOException $exception) {
                 $this->errors[$originPath] = $exception->getMessage();
+
                 continue;
             }
 
-            $this->linked[$originPath] = $destinationPath;
+            $this->linkedFiles[$originPath] = $destinationPath;
         }
 
         return $this;
@@ -60,6 +73,11 @@ class Linker
 
             yield $filePath => $desinationPath;
         }
+    }
+
+    public static function create(ConfigInterface $config): static
+    {
+        return new static($config);
     }
 
     private function getMap(): array
@@ -90,6 +108,10 @@ class Linker
 
     private function getDestinationPath(SplFileInfo $fileInfo): string
     {
-        return str_replace($this->dotDir, $this->config->getDestination(), $fileInfo->getRealPath());
+        return str_replace(
+            $this->config->getDotDirs(),
+            $this->config->getDestination(),
+            $fileInfo->getRealPath()
+        );
     }
 }
