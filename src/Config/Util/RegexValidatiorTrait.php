@@ -6,6 +6,9 @@ namespace Jascha030\Dotfiles\Config\Util;
 
 use Symfony\Component\Finder\Glob;
 
+/**
+ * @internal
+ */
 trait RegexValidatiorTrait
 {
     private function toRegex(string $str): string
