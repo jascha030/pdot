@@ -3,13 +3,17 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use function Jascha030\Dotfiles\app;
 
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
 set_error_handler(static function ($severity, $message, $file, $line): void {
     if ($severity & error_reporting()) {
-        /** @noinspection PhpUnhandledExceptionInspection */
+        /**
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         throw new ErrorException($message, 0, $severity, $file, $line);
     }
 });
@@ -41,3 +45,13 @@ set_error_handler(static function ($severity, $message, $file, $line): void {
 })();
 
 $output = new ConsoleOutput();
+
+try {
+    $status = app($output)->run();
+} catch (Exception $e) {
+    $output->writeln($e->getMessage());
+
+    exit(Command::FAILURE);
+}
+
+exit($status);
