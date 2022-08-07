@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jascha030\Dotfiles\Config\Repository\File;
 
+use ArrayIterator;
+use Jascha030\Dotfiles\Config\ConfigInterface;
+use Jascha030\Dotfiles\Config\Parser\NativeFileParser;
 use Jascha030\Dotfiles\Finder\Finder;
 use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertCount;
@@ -22,8 +25,22 @@ final class NativeFileRepositoryTest extends TestCase
     {
         assertInstanceOf(
             ConfigFileRepositoryInterface::class,
-            (new NativeFileRepository())
+            $this->getRepository()
         );
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testResolve(): void
+    {
+        $iterator = $this->getRepository()
+            ->setSearchDirs([dirname(__FILE__, 4) . '/Fixtures/fs/root'])
+            ->setParser(new NativeFileParser())
+            ->resolve();
+
+        assertInstanceOf(ArrayIterator::class, $iterator);
+        assertInstanceOf(ConfigInterface::class, $iterator->current());
     }
 
     /**
@@ -45,5 +62,11 @@ final class NativeFileRepositoryTest extends TestCase
     public function testGetStubPath(): void
     {
         assertNull(NativeFileRepository::getStubPath());
+    }
+
+    private function getRepository(): NativeFileRepository
+    {
+        return (new NativeFileRepository())
+            ->setSearchDirs([dirname(__FILE__, 4) . '/Fixtures/fs/root']);
     }
 }
