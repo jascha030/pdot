@@ -12,6 +12,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use function Jascha030\CLI\Helpers\error;
 
 if (! defined('PD_DI_PRODUCTION')) {
@@ -22,18 +24,18 @@ if (! defined('PD_DI_COMPILATION_DIR')) {
     define('PD_DI_COMPILATION_DIR', dirname(__DIR__) . '/.cache/DI');
 }
 
+/**
+ * @internal
+ */
 function definitions(): Generator
 {
-    $dir   = __DIR__ . '/definitions';
-    $files = array_diff(scandir($dir), ['..', '.']);
+    $finder = Finder::create()
+        ->in(__DIR__ . '/definitions')
+        ->name('*.php');
 
-    foreach ($files as $file) {
-        if (! str_ends_with($file, '.php')) {
-            continue;
-        }
-
-        yield str_replace('.php', '', $file) => "{$dir}/{$file}";
-    }
+    yield from collect($finder)
+        ->map(static fn (SplFileInfo $f) => $f->getRealPath())
+        ->values();
 }
 
 /**
@@ -46,9 +48,9 @@ function bootstrap(bool $production = false): ContainerInterface
         ->addDefinitions(...iterator_to_array(definitions()));
 
     if (true === $production) {
-        $proxy_dir = PD_DI_COMPILATION_DIR . '/.cache/DI/proxies';
-        $builder->enableCompilation(PD_DI_COMPILATION_DIR)
-            ->writeProxiesToFile(true, $proxy_dir);
+        $builder
+            ->enableCompilation(PD_DI_COMPILATION_DIR)
+            ->writeProxiesToFile(true, PD_DI_COMPILATION_DIR . '/.cache/DI/proxies');
     }
 
     return $builder->build();
@@ -67,7 +69,7 @@ function container(?OutputInterface $output = null): ContainerInterface
     }
 }
 
-function app(?OutputInterface $output = null): Application
+function app(?OutputInterface $output = null): int|Application
 {
     try {
         return container($output)->get(Application::class);
