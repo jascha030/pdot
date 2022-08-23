@@ -3,7 +3,6 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use function Jascha030\Dotfiles\app;
 
@@ -11,47 +10,35 @@ error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
 set_error_handler(static function ($severity, $message, $file, $line): void {
     if ($severity & error_reporting()) {
-        /**
-         * @noinspection PhpUnhandledExceptionInspection
-         */
+        /** @noinspection PhpUnhandledExceptionInspection */
         throw new ErrorException($message, 0, $severity, $file, $line);
     }
 });
 
-(static function (): void {
-    if (defined('HHVM_VERSION_ID')) {
-        fwrite(STDERR, "HHVM is not supported.\n") && exit(1);
-    }
+try {
+    require_once(static function (): ?string {
+        if (defined('HHVM_VERSION_ID')) {
+            fwrite(STDERR, "HHVM is not supported.\n") && exit(1);
+        }
+        if (! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 80000) {
+            fwrite(STDERR, sprintf("PHP version: %s is not supported, please update to 8.0 or higher.\n", PHP_VERSION));
+        }
+        if (PHP_VERSION_ID >= 80200) {
+            fwrite(STDERR, sprintf("PHP version: %s is not supported, please downgrade to 8.1.* or 8.0.*.\n", PHP_VERSION));
+        }
 
-    if (! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 80000) {
-        fwrite(STDERR, sprintf("PHP version: %s is not supported, please update to 8.0 or higher.\n", PHP_VERSION));
-    }
-
-    if (PHP_VERSION_ID >= 80200) {
-        fwrite(STDERR, sprintf("PHP version: %s is not supported, please downgrade to 8.1.* or 8.0.*.\n", PHP_VERSION));
-    }
-
-    $possible_autoloaders = new ArrayIterator(['/vendor/autoload.php', '/autoload.php']);
-
-    require_once(static function (Iterator $paths): ?string {
-        foreach ($paths as $path) {
+        foreach (new ArrayIterator(['/vendor/autoload.php', '/autoload.php']) as $path) {
             if (file_exists($path = sprintf('%s%s', dirname(__DIR__), $path))) {
                 return $path;
             }
         }
 
         return null;
-    })($possible_autoloaders) ?? throw new RuntimeException('Unable to resolve autoload.php');
-})();
+    })() ?? throw new RuntimeException('Unable to resolve autoload.php');
 
-$output = new ConsoleOutput();
+    exit(app(new ConsoleOutput())->run());
+} catch (Exception $exception) {
+    fwrite(STDERR, $exception->getMessage());
 
-try {
-    $status = app($output)->run();
-} catch (Exception $e) {
-    $output->writeln($e->getMessage());
-
-    exit(Command::FAILURE);
+    exit(1);
 }
-
-exit($status);
