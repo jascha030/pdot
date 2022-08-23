@@ -10,11 +10,8 @@ use function DI\get;
 
 return [
     NativeFileParser::class     => autowire(),
-    NativeFileRepository::class => create(NativeFileRepository::class)->method(
-        'setParser',
-        get(NativeFileRepository::class)
-    ),
-    'repositories' => [
+    NativeFileRepository::class => create()->method('setParser', get(NativeFileRepository::class)),
+    'repositories'              => [
         NativeFileRepository::class,
     ],
 ];
