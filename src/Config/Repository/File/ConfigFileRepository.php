@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Jascha030\Dotfiles\Config\Repository\File;
 
 use ArrayIterator;
+use Illuminate\Support\Collection;
 use Iterator;
 use Jascha030\Dotfiles\Config\ConfigInterface;
 use Jascha030\Dotfiles\Config\Parser\ConfigFileParserInterface;
@@ -23,11 +24,11 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
 {
     private ConfigFileParserInterface $parser;
 
-    private array $searchDirs;
+    private iterable $searchDirs;
 
     public function __construct()
     {
-        $this->searchDirs = [home(), defaultConfigPath()];
+        $this->searchDirs = new Collection([home(), defaultConfigPath()]);
     }
 
     public static function getStubPath(): ?string
@@ -62,7 +63,10 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
         return $this;
     }
 
-    public function getSearchDirs(): ?array
+    /**
+     * @return null|Collection
+     */
+    public function getSearchDirs(): ?iterable
     {
         return $this->searchDirs;
     }
@@ -73,7 +77,8 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
     public function getFinder(): Finder
     {
         return Finder::configFinder()
-            ->in($this->getSearchDirs())
+            ->depth('== 0')
+            ->in($this->getSearchDirs()?->toArray())
             ->name(static::getAllowedPatterns());
     }
 

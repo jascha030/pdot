@@ -20,7 +20,7 @@ interface ConfigRepositoryInterface
     public static function getName(): string;
 
     /**
-     * Extended discription of the Configuration type.
+     * Extended description of the Configuration type.
      */
     public static function getDescription(): string;
 
