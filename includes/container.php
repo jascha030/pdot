@@ -45,7 +45,7 @@ function bootstrap(bool $production = false): ContainerInterface
 {
     $builder = (new ContainerBuilder())
         ->useAnnotations(false)
-        ->addDefinitions(...iterator_to_array(definitions()));
+        ->addDefinitions(...definitions());
 
     if (true === $production) {
         $builder

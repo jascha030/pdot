@@ -17,13 +17,7 @@ use function DI\autowire;
  */
 return [
     ConfigResolver::class => static function (ContainerInterface $container): ConfigResolver {
-        return new ConfigResolver($container, iterator_to_array(
-            (static function () use ($container) {
-                foreach ($container->get('repositories') as $class) {
-                    yield $container->get($class);
-                }
-            })()
-        ));
+        return new ConfigResolver($container, $container->get('repositories'));
     },
     ConfigCommand::class   => autowire(),
     UpCommand::class       => autowire(),
