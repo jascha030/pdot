@@ -29,7 +29,7 @@ final class RawConfigIterator implements IteratorAggregate
     {
         /** @var ConfigInterface $config */
         foreach ($this->iterator as $config) {
-            yield $config->getRaw();
+            yield $config->toArray();
         }
     }
 }

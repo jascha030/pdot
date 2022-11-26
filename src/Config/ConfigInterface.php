@@ -41,11 +41,4 @@ interface ConfigInterface
      * - Any type of pdot configuration file.
      */
     public function getIgnoredPatterns(): ?array;
-
-    /**
-     * Get the configuration as array of $key => $value pairs.
-     *
-     * @internal
-     */
-    public function getRaw(): array;
 }

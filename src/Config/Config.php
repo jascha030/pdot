@@ -10,10 +10,11 @@ namespace Jascha030\Dotfiles\Config;
 
 use Exception;
 use Generator;
+use Illuminate\Contracts\Support\Arrayable;
 use ReflectionObject;
 use function Jascha030\Dotfiles\home;
 
-class Config implements ConfigInterface
+class Config implements ConfigInterface, Arrayable
 {
     private const IGNORE_ALWAYS = [
         '.git*',
@@ -43,7 +44,7 @@ class Config implements ConfigInterface
         $this->undottedPatterns = null;
     }
 
-    public static function create(?array $values = null): static
+    public static function create(?iterable $values = null): static
     {
         if (null === $values) {
             return new static();
@@ -157,7 +158,7 @@ class Config implements ConfigInterface
         return $this;
     }
 
-    public function getRaw(): array
+    public function toArray(): array
     {
         return iterator_to_array($this->rawValueGenerator());
     }

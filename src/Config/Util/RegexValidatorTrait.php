@@ -9,7 +9,7 @@ use Symfony\Component\Finder\Glob;
 /**
  * @internal
  */
-trait RegexValidatiorTrait
+trait RegexValidatorTrait
 {
     private function toRegex(string $str): string
     {
@@ -25,7 +25,7 @@ trait RegexValidatiorTrait
         }
 
         if (preg_match('/^(.{3,}?)[' . $availableModifiers . ']*$/', $str, $m)) {
-            $start = substr($m[1], 0, 1);
+            $start = $m[1][0];
             $end   = substr($m[1], -1);
 
             if ($start === $end) {

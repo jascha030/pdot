@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jascha030\Dotfiles\Config;
 
+use Illuminate\Support\LazyCollection;
 use InvalidArgumentException;
-use Jascha030\Dotfiles\Config\Repository\ConfigRepositoryInterface;
 use Jascha030\Dotfiles\Config\Repository\File\ConfigFileRepository;
 use Jascha030\Dotfiles\Config\Repository\File\ConfigFileRepositoryInterface;
-use Jascha030\Dotfiles\Config\Util\RegexValidatiorTrait;
+use Jascha030\Dotfiles\Config\Util\RegexValidatorTrait;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -16,7 +16,7 @@ use SplFileInfo;
 
 final class ConfigResolver
 {
-    use RegexValidatiorTrait;
+    use RegexValidatorTrait;
 
     private array $priorities;
 
@@ -61,6 +61,10 @@ final class ConfigResolver
 
         $this->resolveConfiguration();
 
+        if (! $this->foundAny()) {
+            return null;
+        }
+
         if (! $this->foundMultiple()) {
             $highest = reset($this->resolvedConfigurations);
 
@@ -75,7 +79,6 @@ final class ConfigResolver
         $this->count = 0;
 
         foreach ($this->priorities as $prio => $repositories) {
-            /** @var ConfigRepositoryInterface $repository */
             foreach ($repositories as $repository) {
                 try {
                     $config = $this->container->get($repository)->resolve();
@@ -107,23 +110,20 @@ final class ConfigResolver
         }
 
         $info = new SplFileInfo($path);
+        foreach ($this->repositories as $repository) {
+            if (! is_subclass_of($repository, ConfigFileRepositoryInterface::class)) {
+                continue;
+            }
 
-        foreach ($this->repositories as $repositories) {
-            foreach ($repositories as $repository) {
-                if (! is_subclass_of($repository, ConfigFileRepositoryInterface::class)) {
+            if ($this->isMatch($info->getFilename(), $repository::getAllowedPatterns())) {
+                try {
+                    return $this->container
+                        ->get($repository)
+                        ->getParser()
+                        ->parse($info->getRealPath());
+                } catch (NotFoundExceptionInterface|ContainerExceptionInterface) {
+                    // Todo: Understandable exceptions.
                     continue;
-                }
-
-                if ($this->isMatch($info->getFilename(), $repository::getAllowedPatterns())) {
-                    try {
-                        return $this->container
-                            ->get($repository)
-                            ->getParser()
-                            ->parse($info->getRealPath());
-                    } catch (NotFoundExceptionInterface|ContainerExceptionInterface) {
-                        // Todo: Understandible exceptions.
-                        continue;
-                    }
                 }
             }
         }
@@ -134,6 +134,11 @@ final class ConfigResolver
     public function foundMultiple(): bool
     {
         return $this->count > 1;
+    }
+
+    public function foundAny(): bool
+    {
+        return $this->count > 0;
     }
 
     private function isMatch(string $filename, array|string $patterns): bool
@@ -155,8 +160,10 @@ final class ConfigResolver
 
     private function mergeConfigurations(): ConfigInterface
     {
-        return Config::create(array_merge(...iterator_to_array(
-            new RawConfigIterator($this->resolvedConfigurations)
-        )));
+        return Config::create(
+            new LazyCollection(function () {
+                yield from new RawConfigIterator($this->resolvedConfigurations);
+            })
+        );
     }
 }
