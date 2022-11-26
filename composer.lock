@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dca9c4560ab315bdec51137449b70dc3",
+    "content-hash": "b8240c38d1e93437bc6c59716319f6e0",
     "packages": [
         {
             "name": "illuminate/collections",
-            "version": "v9.26.1",
+            "version": "v9.41.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "3bda212d2c245b3261cd9af690dfd47d9878cebf"
+                "reference": "2a65181bd78d8d00df7459dbe7e8c3ca34f0c93b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/3bda212d2c245b3261cd9af690dfd47d9878cebf",
-                "reference": "3bda212d2c245b3261cd9af690dfd47d9878cebf",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/2a65181bd78d8d00df7459dbe7e8c3ca34f0c93b",
+                "reference": "2a65181bd78d8d00df7459dbe7e8c3ca34f0c93b",
                 "shasum": ""
             },
             "require": {
@@ -59,7 +59,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-08-22T14:29:59+00:00"
+            "time": "2022-11-16T19:49:10+00:00"
         },
         {
             "name": "illuminate/conditionable",
@@ -5160,7 +5160,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0.0|^8.1"
+        "php": "^8.0||^8.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
