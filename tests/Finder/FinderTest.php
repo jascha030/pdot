@@ -40,6 +40,7 @@ class FinderTest extends TestCase
         /** @var SplFileInfo $configFile */
         $configFile = reset($files);
         $path       = $configFile->getRealPath();
+
         assertEquals(dirname(__DIR__) . '/Fixtures/fs/root/.pdot.php', $path);
 
         $config = include $path;

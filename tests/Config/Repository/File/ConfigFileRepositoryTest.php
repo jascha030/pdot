@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jascha030\Dotfiles\Config\Repository\File;
 
+use Illuminate\Support\Collection;
 use Jascha030\Dotfiles\Config\Parser\NativeFileParser;
 use Jascha030\Dotfiles\Finder\Finder;
 use PHPUnit\Framework\TestCase;
@@ -83,9 +84,9 @@ final class ConfigFileRepositoryTest extends TestCase
                 return 'Private class mock';
             }
 
-            public function getSearchDirs(): ?array
+            public function getSearchDirs(): ?iterable
             {
-                return [dirname(__FILE__, 4) . '/Fixtures/fs/root'];
+                return new Collection([dirname(__FILE__, 4) . '/Fixtures/fs/root']);
             }
         };
     }

@@ -15,7 +15,7 @@ use function PHPUnit\Framework\assertNull;
  *
  * @internal
  */
-class EnvironmentRepositoryTest extends TestCase
+final class EnvironmentRepositoryTest extends TestCase
 {
     private const MAP = [
         'PDOT_DESTINATION'    => 'getDestination',
