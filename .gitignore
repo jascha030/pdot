@@ -8,7 +8,6 @@
 
 # Library
 vendor/
-
 node_modules/
 dist/
 
