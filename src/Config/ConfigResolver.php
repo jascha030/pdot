@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jascha030\Dotfiles\Config;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\LazyCollection;
 use InvalidArgumentException;
 use Jascha030\Dotfiles\Config\Repository\File\ConfigFileRepository;
@@ -27,6 +28,9 @@ final class ConfigResolver
 
     private int $count;
 
+    /**
+     * @param array<int,class-string> $repositories
+     */
     public function __construct(private ContainerInterface $container, private array $repositories)
     {
         $this->count = 0;
@@ -36,6 +40,9 @@ final class ConfigResolver
         }
     }
 
+    /**
+     * @param class-string<ConfigFileRepository> $repository
+     */
     public function addRepository(string $repository): ConfigResolver
     {
         if (! is_subclass_of($repository, ConfigFileRepository::class)) {
@@ -61,17 +68,11 @@ final class ConfigResolver
 
         $this->resolveConfiguration();
 
-        if (! $this->foundAny()) {
-            return null;
-        }
-
-        if (! $this->foundMultiple()) {
-            $highest = reset($this->resolvedConfigurations);
-
-            return reset($highest);
-        }
-
-        return $this->mergeConfigurations();
+        return match (true) {
+            $this->foundMultiple() => $this->mergeConfigurations(),
+            $this->foundAny()      => Arr::first(Arr::first($this->resolvedConfigurations)),
+            default                => null,
+        };
     }
 
     public function resolveConfiguration(): ConfigResolver
@@ -143,19 +144,14 @@ final class ConfigResolver
 
     private function isMatch(string $filename, array|string $patterns): bool
     {
-        if (is_string($patterns)) {
+        if (\is_string($patterns)) {
             return preg_match($this->toRegex($patterns), $filename) > 0;
         }
 
-        foreach ($patterns as $pattern) {
-            if (! $this->isMatch($filename, $pattern)) {
-                continue;
-            }
-
-            return true;
-        }
-
-        return false;
+        return collect($patterns)->contains(fn (string $pattern) => $this->isMatch(
+            $filename,
+            $pattern
+        ));
     }
 
     private function mergeConfigurations(): ConfigInterface

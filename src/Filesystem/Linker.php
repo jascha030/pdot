@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpInternalEntityUsedInspection */
 
 declare(strict_types=1);
@@ -6,40 +7,43 @@ declare(strict_types=1);
 namespace Jascha030\Dotfiles\Filesystem;
 
 use Generator;
+use Illuminate\Support\Collection;
 use Jascha030\Dotfiles\Config\ConfigInterface;
 use Jascha030\Dotfiles\Finder\Finder;
+use LogicException;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\SplFileInfo;
 
 class Linker
 {
-    private array $map;
+    private Collection $map;
 
     private Filesystem $fs;
 
-    private array $linkedFiles;
+    private Collection $linkedFiles;
 
-    private array $errors;
+    private Collection $errors;
 
     private function __construct(private ConfigInterface $config)
     {
-        $this->map         = [];
-        $this->linkedFiles = [];
-        $this->errors      = [];
+        $this->map         = new Collection([]);
+        $this->linkedFiles = new Collection([]);
+        $this->errors      = new Collection([]);
     }
 
     final public function getErrors(): ?array
     {
-        return ! empty($this->errors)
-            ? $this->errors
+        return ! $this->errors->isEmpty()
+            ? $this->errors->toArray()
             : null;
     }
 
     final public function getLinkedFiles(): ?array
     {
-        return ! empty($this->linkedFiles)
-            ? $this->linkedFiles
+        return ! $this->linkedFiles->isEmpty()
+            ? $this->linkedFiles->toArray()
             : null;
     }
 
@@ -53,7 +57,7 @@ class Linker
             try {
                 $this->fs->symlink($originPath, $destinationPath);
             } catch (IOException $exception) {
-                $this->errors[$originPath] = $exception->getMessage();
+                $this->errors->put($originPath, $exception);
 
                 continue;
             }
@@ -64,14 +68,20 @@ class Linker
         return $this;
     }
 
+    /**
+     * @return Generator
+     *
+     * @throws DirectoryNotFoundException
+     * @throws LogicException
+     */
     public function getQueue(): Generator
     {
-        foreach ($this->getMap() as $filePath => $desinationPath) {
-            if ($this->exists($desinationPath)) {
+        foreach ($this->getMap() as $filePath => $destinationPath) {
+            if ($this->exists($destinationPath)) {
                 continue;
             }
 
-            yield $filePath => $desinationPath;
+            yield $filePath => $destinationPath;
         }
     }
 
@@ -80,9 +90,9 @@ class Linker
         return new static($config);
     }
 
-    private function getMap(): array
+    private function getMap(): Collection
     {
-        if (! empty($this->map)) {
+        if (! $this->map->isEmpty()) {
             return $this->map;
         }
 
@@ -95,7 +105,10 @@ class Linker
 
         /** @var SplFileInfo $file */
         foreach ($finder->getIterator() as $file) {
-            $this->map[$file->getRealPath()] = $this->getDestinationPath($file);
+            $this->map->put(
+                $file->getRealPath(),
+                $this->getDestinationPath($file)
+            );
         }
 
         return $this;
