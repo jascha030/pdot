@@ -24,7 +24,7 @@ class ParserException extends InvalidArgumentException
     {
         parent::__construct($this->createMessage(
             $path,
-            ! is_string($reason)
+            is_string($reason)
                 ? $reason
                 : self::REASON_TYPES[$reason] ?? null
         ));
