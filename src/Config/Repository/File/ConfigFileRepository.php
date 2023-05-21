@@ -55,8 +55,10 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
     {
         return $this->parser ?? throw self::parserException();
     }
-
-    public function setSearchDirs(array $directories): static
+    /**
+     * @param array<int,mixed> $directories
+     */
+    public function setSearchDirs(array $directories): ConfigFileRepository
     {
         $this->searchDirs = $directories;
 

@@ -29,7 +29,7 @@ trait RegexValidatorTrait
             $end   = substr($m[1], -1);
 
             if ($start === $end) {
-                return ! preg_match('/[*?[:alnum:] \\\\]/', $start);
+                return !preg_match('/[*?[:alnum:] \\\\]/', $start);
             }
 
             foreach ([['{', '}'], ['(', ')'], ['[', ']'], ['<', '>']] as $delimiters) {
