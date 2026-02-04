@@ -1,16 +1,26 @@
 # IDE Projectfiles
-.idea/
-.vscode/
+### Default project gitignore
 
-# Dynamic
-.cache
-.var
+## IDE Projectfiles
+/.idea/
+/.var/
 
-# Library
+/**.cache
+
+## Library
 vendor/
-node_modules/
-dist/
+/tools
 
-# MacOS
-*.DS_Store
-.DS_Store
+## Env
+/.env
+/auth.json
+/.pm.toml
+
+## Other
+/*.DS_Store
+/.DS_Store
+/*.sql
+/TODO.md
+/results.md
+
+.phpactor.json
