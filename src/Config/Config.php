@@ -12,7 +12,9 @@ use Exception;
 use Generator;
 use Illuminate\Contracts\Support\Arrayable;
 use ReflectionObject;
+
 use function Jascha030\Dotfiles\home;
+use function sprintf;
 
 class Config implements ConfigInterface, Arrayable
 {
@@ -26,13 +28,13 @@ class Config implements ConfigInterface, Arrayable
 
     private ?string $destination;
 
-    private null|array|string $dotDirs;
+    private array|string|null $dotDirs;
 
     private ?bool $addDots;
 
     private ?array $undottedPatterns;
 
-    private null|array|string $ignoredPatterns;
+    private array|string|null $ignoredPatterns;
 
     private function __construct()
     {
@@ -68,90 +70,72 @@ class Config implements ConfigInterface, Arrayable
         return $config;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getOrigin(): ?string
     {
         return $this->origin;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getDotDirs(): null|string|array
+    public function getDotDirs(): string|array|null
     {
         return $this->dotDirs ?? home() . '/.dotfiles';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDestination(): ?string
     {
         return $this->destination;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAddDots(): ?bool
     {
         return $this->addDots;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getUndottedPatterns(): ?array
     {
         return $this->undottedPatterns;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIgnoredPatterns(): ?array
     {
         return $this->ignoredPatterns;
     }
 
-    public function setOrigin(?string $origin): Config
+    public function setOrigin(?string $origin): self
     {
         $this->origin = $origin;
 
         return $this;
     }
 
-    public function setDestination(?string $destination): Config
+    public function setDestination(?string $destination): self
     {
         $this->destination = $destination;
 
         return $this;
     }
 
-    public function setDotDirs(array|string|null $dotDirs): Config
+    public function setDotDirs(array|string|null $dotDirs): self
     {
         $this->dotDirs = $dotDirs;
 
         return $this;
     }
 
-    public function setAddDots(?bool $addDots): Config
+    public function setAddDots(?bool $addDots): self
     {
         $this->addDots = $addDots;
 
         return $this;
     }
 
-    public function setUndottedPatterns(?array $undottedPatterns): Config
+    public function setUndottedPatterns(?array $undottedPatterns): self
     {
         $this->undottedPatterns = $undottedPatterns;
 
         return $this;
     }
 
-    public function setIgnoredPatterns(?array $ignoredPatterns): Config
+    public function setIgnoredPatterns(?array $ignoredPatterns): self
     {
         $this->ignoredPatterns = array_merge(self::IGNORE_ALWAYS, $ignoredPatterns);
 

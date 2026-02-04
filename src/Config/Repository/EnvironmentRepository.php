@@ -11,6 +11,8 @@ namespace Jascha030\Dotfiles\Config\Repository;
 use Jascha030\Dotfiles\Config\Config;
 use Jascha030\Dotfiles\Config\ConfigInterface;
 
+use function count;
+
 class EnvironmentRepository extends ConfigRepository
 {
     private const ENVIRONMENT_KEY_MAP = [
@@ -21,34 +23,22 @@ class EnvironmentRepository extends ConfigRepository
         'PDOT_IGNORED_PATTERNS' => 'ignoredPatterns',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getName(): string
     {
         return 'environment';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getPriority(): int
     {
         return ConfigRepository::PRIO_HIGH;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getDescription(): string
     {
         return 'Uses environment variables to configure behaviour of the `pdot up` command.';
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function resolve(): null|ConfigInterface
+    public function resolve(): ?ConfigInterface
     {
         $resolvedVariables = $this->getEnvironmentVariables();
 

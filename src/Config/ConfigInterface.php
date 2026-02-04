@@ -15,7 +15,7 @@ interface ConfigInterface
     /**
      * Dotfile directories to track, defaults to `$HOME/.dotfiles`.
      */
-    public function getDotDirs(): null|string|array;
+    public function getDotDirs(): string|array|null;
 
     /**
      * Root of the destination directory, defaults to `$HOME`.

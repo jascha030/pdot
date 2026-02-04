@@ -8,6 +8,7 @@ use Jascha030\Dotfiles\Console\Command\ConfigCommand;
 use Jascha030\Dotfiles\Console\Command\UpCommand;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application as BaseApplication;
+
 use function DI\autowire;
 
 /**
@@ -16,9 +17,7 @@ use function DI\autowire;
  * @see https://php-di.org/doc/php-definitions.html
  */
 return [
-    ConfigResolver::class => static function (ContainerInterface $container): ConfigResolver {
-        return new ConfigResolver($container, $container->get('repositories'));
-    },
+    ConfigResolver::class  => static fn (ContainerInterface $container): ConfigResolver => new ConfigResolver($container, $container->get('repositories')),
     ConfigCommand::class   => autowire(),
     UpCommand::class       => autowire(),
     BaseApplication::class => autowire(Application::class),

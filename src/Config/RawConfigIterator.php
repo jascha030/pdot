@@ -22,9 +22,6 @@ final class RawConfigIterator implements IteratorAggregate
         $this->iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($prioritised));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIterator(): Generator
     {
         /** @var ConfigInterface $config */

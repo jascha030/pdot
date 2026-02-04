@@ -6,6 +6,8 @@ namespace Jascha030\Dotfiles\Config\Util;
 
 use Symfony\Component\Finder\Glob;
 
+use const PHP_VERSION_ID;
+
 /**
  * @internal
  */
@@ -20,7 +22,7 @@ trait RegexValidatorTrait
     {
         $availableModifiers = 'imsxuADU';
 
-        if (\PHP_VERSION_ID >= 80200) {
+        if (PHP_VERSION_ID >= 80200) {
             $availableModifiers .= 'n';
         }
 
@@ -29,7 +31,7 @@ trait RegexValidatorTrait
             $end   = substr($m[1], -1);
 
             if ($start === $end) {
-                return !preg_match('/[*?[:alnum:] \\\\]/', $start);
+                return ! preg_match('/[*?[:alnum:] \\\]/', $start);
             }
 
             foreach ([['{', '}'], ['(', ')'], ['[', ']'], ['<', '>']] as $delimiters) {

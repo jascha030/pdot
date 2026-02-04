@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Jascha030\Dotfiles\Config\Repository;
 
 use PHPUnit\Framework\TestCase;
+
+use function dirname;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertNull;

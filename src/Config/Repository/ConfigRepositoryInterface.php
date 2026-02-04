@@ -27,7 +27,7 @@ interface ConfigRepositoryInterface
     /**
      * Create an instance of ConfigInterface.
      *
-     * @return null|ConfigInterface|ConfigInterface[]
+     * @return ConfigInterface|ConfigInterface[]|null
      */
-    public function resolve(): null|Iterator|ConfigInterface;
+    public function resolve(): Iterator|ConfigInterface|null;
 }

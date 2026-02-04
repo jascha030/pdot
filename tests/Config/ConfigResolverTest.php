@@ -6,6 +6,7 @@ namespace Jascha030\Dotfiles\Config;
 
 use Jascha030\Dotfiles\Config\Repository\File\NativeFileRepository;
 use PHPUnit\Framework\TestCase;
+
 use function dirname;
 use function Jascha030\Dotfiles\container;
 use function PHPUnit\Framework\assertInstanceOf;

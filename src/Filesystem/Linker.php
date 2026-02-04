@@ -69,8 +69,6 @@ class Linker
     }
 
     /**
-     * @return Generator
-     *
      * @throws DirectoryNotFoundException
      * @throws LogicException
      */

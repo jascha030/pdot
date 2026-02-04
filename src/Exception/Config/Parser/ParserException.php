@@ -7,6 +7,11 @@ namespace Jascha030\Dotfiles\Exception\Config\Parser;
 use InvalidArgumentException;
 use SplFileInfo;
 
+use function is_string;
+use function sprintf;
+
+use const PHP_EOL;
+
 class ParserException extends InvalidArgumentException
 {
     public const REASON_NOT_FOUND = 0;
@@ -20,7 +25,7 @@ class ParserException extends InvalidArgumentException
 
     private static string $template = 'Error encountered while parsing config file: %s%s.%s Full path: %s';
 
-    public function __construct(string $path, null|string|int $reason = null)
+    public function __construct(string $path, string|int|null $reason = null)
     {
         parent::__construct($this->createMessage(
             $path,

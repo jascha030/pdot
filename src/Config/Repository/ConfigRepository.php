@@ -13,14 +13,8 @@ abstract class ConfigRepository implements ConfigRepositoryInterface
 
     public const PRIO_NORMAL = 50;
 
-    /**
-     * {@inheritDoc}
-     */
-    abstract public function resolve(): null|Iterator|ConfigInterface;
+    abstract public function resolve(): Iterator|ConfigInterface|null;
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getPriority(): int
     {
         return self::PRIO_NORMAL;

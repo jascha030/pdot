@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Jascha030\Dotfiles\Finder;
 
+use Jascha030\Dotfiles\Config\ConfigInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder as BaseFinder;
 use Symfony\Component\Finder\SplFileInfo;
-use Jascha030\Dotfiles\Config\ConfigInterface;
+
+use function dirname;
 use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;

@@ -9,6 +9,8 @@ use Jascha030\Dotfiles\Config\ConfigInterface;
 use Jascha030\Dotfiles\Config\Parser\NativeFileParser;
 use Jascha030\Dotfiles\Finder\Finder;
 use PHPUnit\Framework\TestCase;
+
+use function dirname;
 use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertInstanceOf;
 use function PHPUnit\Framework\assertNull;

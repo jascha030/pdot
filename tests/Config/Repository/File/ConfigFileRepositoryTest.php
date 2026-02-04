@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 use Jascha030\Dotfiles\Config\Parser\NativeFileParser;
 use Jascha030\Dotfiles\Finder\Finder;
 use PHPUnit\Framework\TestCase;
+
+use function dirname;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
 use function PHPUnit\Framework\assertNull;
@@ -68,7 +70,7 @@ final class ConfigFileRepositoryTest extends TestCase
 
     private function getRepository(): ConfigFileRepository
     {
-        return new class () extends ConfigFileRepository {
+        return new class extends ConfigFileRepository {
             public static function getAllowedPatterns(): array|string
             {
                 return NativeFileRepository::getAllowedPatterns();

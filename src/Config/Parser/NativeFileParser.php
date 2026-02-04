@@ -12,7 +12,7 @@ final class NativeFileParser implements ConfigFileParserInterface
 {
     public function parse(string $path): ConfigInterface
     {
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             throw new ParserException($path);
         }
 

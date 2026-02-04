@@ -17,6 +17,7 @@ use Jascha030\Dotfiles\Config\Repository\ConfigRepository;
 use Jascha030\Dotfiles\Finder\Finder;
 use RuntimeException;
 use Symfony\Component\Finder\SplFileInfo;
+
 use function Jascha030\Dotfiles\defaultConfigPath;
 use function Jascha030\Dotfiles\home;
 
@@ -47,18 +48,17 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @throws RuntimeException
      */
     public function getParser(): ConfigFileParserInterface
     {
         return $this->parser ?? throw self::parserException();
     }
+
     /**
      * @param array<int,mixed> $directories
      */
-    public function setSearchDirs(array $directories): ConfigFileRepository
+    public function setSearchDirs(array $directories): self
     {
         $this->searchDirs = $directories;
 
@@ -66,16 +66,13 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
     }
 
     /**
-     * @return null|Collection
+     * @return Collection|null
      */
     public function getSearchDirs(): ?iterable
     {
         return $this->searchDirs;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFinder(): Finder
     {
         return Finder::configFinder()
@@ -85,11 +82,9 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @return null|ArrayIterator<string, ConfigInterface>
+     * @return ArrayIterator<string, ConfigInterface>|null
      */
-    public function resolve(): null|Iterator
+    public function resolve(): ?Iterator
     {
         $results  = [];
         $iterator = $this->getFinder()->getIterator();

@@ -14,6 +14,10 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+
+use function define;
+use function defined;
+use function dirname;
 use function Jascha030\CLI\Helpers\error;
 
 if (! defined('PD_DI_PRODUCTION')) {

@@ -15,6 +15,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use SplFileInfo;
 
+use function is_string;
+
 final class ConfigResolver
 {
     use RegexValidatorTrait;
@@ -43,7 +45,7 @@ final class ConfigResolver
     /**
      * @param class-string<ConfigFileRepository> $repository
      */
-    public function addRepository(string $repository): ConfigResolver
+    public function addRepository(string $repository): self
     {
         if (! is_subclass_of($repository, ConfigFileRepository::class)) {
             return $this;
@@ -75,7 +77,7 @@ final class ConfigResolver
         };
     }
 
-    public function resolveConfiguration(): ConfigResolver
+    public function resolveConfiguration(): self
     {
         $this->count = 0;
 
@@ -144,7 +146,7 @@ final class ConfigResolver
 
     private function isMatch(string $filename, array|string $patterns): bool
     {
-        if (\is_string($patterns)) {
+        if (is_string($patterns)) {
             return preg_match($this->toRegex($patterns), $filename) > 0;
         }
 
