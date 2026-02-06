@@ -58,7 +58,7 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
     /**
      * @param array<int,mixed> $directories
      */
-    public function setSearchDirs(array $directories): self
+    public function setSearchDirs(array|Collection $directories): self
     {
         $this->searchDirs = $directories;
 
@@ -75,9 +75,15 @@ abstract class ConfigFileRepository extends ConfigRepository implements ConfigFi
 
     public function getFinder(): Finder
     {
+        $dirs = $this->getSearchDirs();
+
+        if (null !== $dirs && ! is_array($dirs)) {
+            $dirs = $dirs->toArray();
+        }
+
         return Finder::configFinder()
             ->depth('== 0')
-            ->in($this->getSearchDirs()?->toArray())
+            ->in($dirs)
             ->name(static::getAllowedPatterns());
     }
 
