@@ -24,7 +24,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Jascha030\\Dotfiles\\Tests\\": "tests/"
+            "Jascha030\\Dotfiles\\": "tests/"
         }
     },
     "minimum-stability": "stable",
