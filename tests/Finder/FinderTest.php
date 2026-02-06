@@ -10,9 +10,6 @@ use Symfony\Component\Finder\Finder as BaseFinder;
 use Symfony\Component\Finder\SplFileInfo;
 
 use function dirname;
-use function PHPUnit\Framework\assertCount;
-use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertInstanceOf;
 
 /**
  * @covers \Jascha030\Dotfiles\Finder\Finder
@@ -23,7 +20,7 @@ class FinderTest extends TestCase
 {
     public function testConfigFinderFactory(): void
     {
-        assertInstanceOf(BaseFinder::class, Finder::configFinder());
+        self::assertInstanceOf(BaseFinder::class, Finder::configFinder());
     }
 
     /**
@@ -37,16 +34,16 @@ class FinderTest extends TestCase
             ->getIterator();
 
         $files = iterator_to_array($iterator);
-        assertCount(1, $files);
+        self::assertCount(1, $files);
 
         /** @var SplFileInfo $configFile */
         $configFile = reset($files);
         $path       = $configFile->getRealPath();
 
-        assertEquals(dirname(__DIR__) . '/Fixtures/fs/root/.pdot.php', $path);
+        self::assertEquals(dirname(__DIR__) . '/Fixtures/fs/root/.pdot.php', $path);
 
         $config = include $path;
-        assertInstanceOf(ConfigInterface::class, $config);
+        self::assertInstanceOf(ConfigInterface::class, $config);
 
         return $config;
     }
@@ -56,6 +53,6 @@ class FinderTest extends TestCase
      */
     public function testDotfileFinder(ConfigInterface $config): void
     {
-        assertInstanceOf(BaseFinder::class, Finder::dotfileFinder($config));
+        self::assertInstanceOf(BaseFinder::class, Finder::dotfileFinder($config));
     }
 }

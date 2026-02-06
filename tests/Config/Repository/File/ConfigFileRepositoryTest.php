@@ -10,9 +10,6 @@ use Jascha030\Dotfiles\Finder\Finder;
 use PHPUnit\Framework\TestCase;
 
 use function dirname;
-use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertInstanceOf;
-use function PHPUnit\Framework\assertNull;
 
 /**
  * @covers \Jascha030\Dotfiles\Config\Repository\File\ConfigFileRepository
@@ -23,7 +20,7 @@ final class ConfigFileRepositoryTest extends TestCase
 {
     public function testGetFinder(): void
     {
-        assertInstanceOf(
+        self::assertInstanceOf(
             Finder::class,
             $this->getRepository()->getFinder()
         );
@@ -31,12 +28,12 @@ final class ConfigFileRepositoryTest extends TestCase
 
     public function testGetStubPath(): void
     {
-        assertNull($this->getRepository()::getStubPath());
+        self::assertNull($this->getRepository()::getStubPath());
     }
 
     public function testGetAllowedPatterns(): void
     {
-        assertEquals(
+        self::assertEquals(
             NativeFileRepository::getAllowedPatterns(),
             $this->getRepository()::getAllowedPatterns()
         );
@@ -44,7 +41,7 @@ final class ConfigFileRepositoryTest extends TestCase
 
     public function testParser(): void
     {
-        assertEquals(
+        self::assertEquals(
             $expected = new NativeFileParser(),
             $this->getRepository()->setParser($expected)->getParser()
         );
@@ -52,7 +49,7 @@ final class ConfigFileRepositoryTest extends TestCase
 
     public function testSetSearchDirs(): void
     {
-        assertEquals(
+        self::assertEquals(
             $this->getSearchDirs(),
             $this->getRepository()->setSearchDirs($this->getSearchDirs())->getSearchDirs()
         );
@@ -60,12 +57,12 @@ final class ConfigFileRepositoryTest extends TestCase
 
     public function testConstruct(): void
     {
-        assertInstanceOf(ConfigFileRepositoryInterface::class, $this->getRepository());
+        self::assertInstanceOf(ConfigFileRepositoryInterface::class, $this->getRepository());
     }
 
-    private function getSearchDirs(): array
+    private function getSearchDirs(): Collection
     {
-        return [dirname(__FILE__, 4) . '/Fixtures/fs/root'];
+        return collect([dirname(__FILE__, 4) . '/Fixtures/fs/root']);
     }
 
     private function getRepository(): ConfigFileRepository

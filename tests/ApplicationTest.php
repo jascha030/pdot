@@ -9,9 +9,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Application as BaseApplication;
 
-use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertInstanceOf;
-
 /**
  * @covers \Jascha030\Dotfiles\Application
  *
@@ -23,10 +20,10 @@ final class ApplicationTest extends TestCase
     {
         $app = new Application();
 
-        assertInstanceOf(BaseApplication::class, $app);
+        self::assertInstanceOf(BaseApplication::class, $app);
 
-        assertEquals(Application::APP_NAME, $app->getName());
-        assertEquals(Application::VERSION, $app->getVersion());
+        self::assertEquals(Application::APP_NAME, $app->getName());
+        self::assertEquals(Application::VERSION, $app->getVersion());
     }
 
     /**
@@ -38,6 +35,6 @@ final class ApplicationTest extends TestCase
     {
         $app = container()->get(BaseApplication::class);
 
-        assertInstanceOf(Application::class, $app);
+        self::assertInstanceOf(Application::class, $app);
     }
 }

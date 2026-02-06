@@ -11,9 +11,6 @@ use Jascha030\Dotfiles\Finder\Finder;
 use PHPUnit\Framework\TestCase;
 
 use function dirname;
-use function PHPUnit\Framework\assertCount;
-use function PHPUnit\Framework\assertInstanceOf;
-use function PHPUnit\Framework\assertNull;
 
 /**
  * @covers \Jascha030\Dotfiles\Config\Repository\File\ConfigFileRepository
@@ -25,7 +22,7 @@ final class NativeFileRepositoryTest extends TestCase
 {
     public function testConstruct(): void
     {
-        assertInstanceOf(
+        self::assertInstanceOf(
             ConfigFileRepositoryInterface::class,
             $this->getRepository()
         );
@@ -41,8 +38,8 @@ final class NativeFileRepositoryTest extends TestCase
             ->setParser(new NativeFileParser())
             ->resolve();
 
-        assertInstanceOf(ArrayIterator::class, $iterator);
-        assertInstanceOf(ConfigInterface::class, $iterator->current());
+        self::assertInstanceOf(ArrayIterator::class, $iterator);
+        self::assertInstanceOf(ConfigInterface::class, $iterator->current());
     }
 
     /**
@@ -55,7 +52,7 @@ final class NativeFileRepositoryTest extends TestCase
             ->name(NativeFileRepository::getAllowedPatterns())
             ->getIterator();
 
-        assertCount(1, iterator_to_array($iterator));
+        self::assertCount(1, iterator_to_array($iterator));
     }
 
     /**
@@ -63,7 +60,7 @@ final class NativeFileRepositoryTest extends TestCase
      */
     public function testGetStubPath(): void
     {
-        assertNull(NativeFileRepository::getStubPath());
+        self::assertNull(NativeFileRepository::getStubPath());
     }
 
     private function getRepository(): NativeFileRepository

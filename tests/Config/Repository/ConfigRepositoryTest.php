@@ -11,8 +11,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 use function Jascha030\Dotfiles\container;
-use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertInstanceOf;
 
 /**
  * @covers \Jascha030\Dotfiles\Config\Repository\ConfigRepository
@@ -27,7 +25,7 @@ final class ConfigRepositoryTest extends TestCase
      */
     public function testGetPriority(): void
     {
-        assertEquals(
+        self::assertEquals(
             ConfigRepository::PRIO_NORMAL,
             $this->getRepository()::getPriority()
         );
@@ -39,7 +37,7 @@ final class ConfigRepositoryTest extends TestCase
      */
     public function testResolve(): void
     {
-        assertInstanceOf(
+        self::assertInstanceOf(
             ConfigInterface::class,
             $this->getRepository()->resolve()
         );

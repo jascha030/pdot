@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpArrayShapeAttributeCanBeAddedInspection */
 
 declare(strict_types=1);

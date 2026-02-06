@@ -28,13 +28,13 @@ class ConfigResolverTest extends TestCase
         assertInstanceOf(ConfigResolver::class, $this->getResolver()->addRepository(NativeFileRepository::class));
     }
 
-    public function testFoundMultiple(): void
-    {
-    }
-
-    public function testGetByPath(): void
-    {
-    }
+    /* public function testFoundMultiple(): void */
+    /* { */
+    /* } */
+    /*  */
+    /* public function testGetByPath(): void */
+    /* { */
+    /* } */
 
     /**
      * @throws \Psr\Container\ContainerExceptionInterface

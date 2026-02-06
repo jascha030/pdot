@@ -7,9 +7,6 @@ namespace Jascha030\Dotfiles\Config\Repository;
 use PHPUnit\Framework\TestCase;
 
 use function dirname;
-use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertIsString;
-use function PHPUnit\Framework\assertNull;
 
 /**
  * @covers \Jascha030\Dotfiles\Config\Repository\ConfigRepository
@@ -43,17 +40,17 @@ final class EnvironmentRepositoryTest extends TestCase
 
     public function testGetDescription(): void
     {
-        assertIsString($this->getRepository()->getDescription());
+        self::assertIsString($this->getRepository()->getDescription());
     }
 
     public function testGetName(): void
     {
-        assertIsString($this->getRepository()->getName());
+        self::assertIsString($this->getRepository()->getName());
     }
 
     public function testGetPriority(): void
     {
-        assertEquals(ConfigRepository::PRIO_HIGH, $this->getRepository()->getPriority());
+        self::assertEquals(ConfigRepository::PRIO_HIGH, $this->getRepository()->getPriority());
     }
 
     public function testResolve(): void
@@ -62,7 +59,7 @@ final class EnvironmentRepositoryTest extends TestCase
         $config  = $this->getRepository()->resolve();
 
         foreach (self::$testEnv as $key => $value) {
-            assertEquals($value, $config->{self::MAP[$key]}());
+            self::assertEquals($value, $config->{self::MAP[$key]}());
         }
     }
 
@@ -75,7 +72,7 @@ final class EnvironmentRepositoryTest extends TestCase
             unset($_SERVER[$key]);
         }
 
-        assertNull($this->getRepository()->resolve());
+        self::assertNull($this->getRepository()->resolve());
     }
 
     private function getRepository(): ConfigRepositoryInterface
