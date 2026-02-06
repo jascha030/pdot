@@ -48,7 +48,7 @@ function definitions(): Generator
 function bootstrap(bool $production = false): ContainerInterface
 {
     $builder = (new ContainerBuilder())
-        ->useAnnotations(false)
+        ->useAttributes(false)
         ->addDefinitions(...definitions());
 
     if (true === $production) {
